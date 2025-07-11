@@ -326,6 +326,7 @@ export default function Home() {
                       </div>
                     </div>
                     
+
                     <div className="mt-6 pt-6 border-t border-gray-100">
                       <button 
                         onClick={() => handleConnect(skill)}
@@ -335,6 +336,7 @@ export default function Home() {
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
+
                       </button>
                     </div>
                   </CardContent>
@@ -359,6 +361,7 @@ export default function Home() {
 
       {/* Connection Request Modal */}
       <Dialog open={isConnectionModalOpen} onOpenChange={setIsConnectionModalOpen}>
+
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Connect with {selectedSkill?.name}</DialogTitle>
@@ -372,11 +375,13 @@ export default function Home() {
                 className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 resize-none"
                 placeholder="Write a message (e.g., 'Hello, I'd like to connect!')"
                 rows={4}
+
               />
             </div>
             <Button 
               type="submit" 
               disabled={createConnectionMutation.isPending}
+
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-800 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {createConnectionMutation.isPending ? (
@@ -387,6 +392,7 @@ export default function Home() {
               ) : (
                 "Send Connection Request"
               )}
+
             </Button>
           </form>
         </DialogContent>
