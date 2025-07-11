@@ -6,12 +6,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { insertSkillSchema, type InsertSkill, type Skill } from "@shared/schema";
+import { insertSkillSchema, insertConnectionSchema, type InsertSkill, type Skill, type InsertConnection } from "@shared/schema";
 
 export default function Home() {
   const { toast } = useToast();
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+  const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
 
   const { data: skills = [], isLoading } = useQuery<Skill[]>({
     queryKey: ["/api/skills"],
@@ -27,6 +31,15 @@ export default function Home() {
       name: "",
       canTeach: "",
       wantsToLearn: "",
+    },
+  });
+
+  const connectionForm = useForm<InsertConnection>({
+    resolver: zodResolver(insertConnectionSchema),
+    defaultValues: {
+      fromSkillId: 0,
+      toSkillId: 0,
+      message: "",
     },
   });
 
@@ -52,8 +65,47 @@ export default function Home() {
     },
   });
 
+  const createConnectionMutation = useMutation({
+    mutationFn: async (data: InsertConnection) => {
+      console.log("Sending connection request:", data);
+      const response = await apiRequest("POST", "/api/connections", data);
+      return response.json();
+    },
+    onSuccess: (data) => {
+      console.log("Connection request successful:", data);
+      setIsConnectionModalOpen(false);
+      connectionForm.reset();
+      toast({
+        title: "Connection Request Sent!",
+        description: "Your connection request has been sent successfully.",
+      });
+    },
+    onError: (error) => {
+      console.error("Connection request failed:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send connection request. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: InsertSkill) => {
     createSkillMutation.mutate(data);
+  };
+
+  const onConnectionSubmit = (data: InsertConnection) => {
+    createConnectionMutation.mutate(data);
+  };
+
+  const handleConnect = (skill: Skill) => {
+    setSelectedSkill(skill);
+    connectionForm.setValue("toSkillId", skill.id);
+    // Use the first available skill as the "from" skill
+    if (skills.length > 0) {
+      connectionForm.setValue("fromSkillId", skills[0].id);
+    }
+    setIsConnectionModalOpen(true);
   };
 
   const getInitials = (name: string) => {
@@ -253,7 +305,10 @@ export default function Home() {
                     </div>
                     
                     <div className="mt-4 pt-4 border-t border-gray-100">
-                      <button className="text-primary text-sm font-medium hover:text-blue-600 transition-colors duration-200">
+                      <button 
+                        onClick={() => handleConnect(skill)}
+                        className="text-primary text-sm font-medium hover:text-blue-600 transition-colors duration-200"
+                      >
                         Connect
                       </button>
                     </div>
@@ -276,6 +331,33 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Connection Request Modal */}
+      <Dialog open={isConnectionModalOpen} onOpenChange={setIsConnectionModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Connect with {selectedSkill?.name}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={connectionForm.handleSubmit(onConnectionSubmit)} className="space-y-4">
+            <div>
+              <Label htmlFor="message" className="text-sm font-medium text-gray-700">Message (optional)</Label>
+              <Textarea
+                id="message"
+                {...connectionForm.register("message")}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
+                placeholder="Write a message (e.g., 'Hello, I'd like to connect!')"
+              />
+            </div>
+            <Button 
+              type="submit" 
+              disabled={createConnectionMutation.isPending}
+              className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              {createConnectionMutation.isPending ? "Sending..." : "Send Connection Request"}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
