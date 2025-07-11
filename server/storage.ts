@@ -1,7 +1,7 @@
-import { skills, type Skill, type InsertSkill } from "@shared/schema";
+import { skills, connections, type Skill, type InsertSkill, type Connection, type InsertConnection } from "@shared/schema";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<any | undefined>;
@@ -9,6 +9,10 @@ export interface IStorage {
   createUser(user: any): Promise<any>;
   getSkills(): Promise<Skill[]>;
   createSkill(skill: InsertSkill): Promise<Skill>;
+  getConnections(skillId: number): Promise<Connection[]>;
+  createConnection(connection: InsertConnection): Promise<Connection>;
+  updateConnectionStatus(id: number, status: string): Promise<Connection>;
+  getConnectionStatus(fromSkillId: number, toSkillId: number): Promise<Connection | null>;
 }
 
 // Initialize PostgreSQL connection
@@ -67,6 +71,54 @@ export class PostgresStorage implements IStorage {
       return result[0];
     } catch (error) {
       console.error("Error creating skill:", error);
+      throw error;
+    }
+  }
+
+  async getConnections(skillId: number): Promise<Connection[]> {
+    try {
+      console.log("Fetching connections for skill:", skillId);
+      const result = await db.select().from(connections).where(eq(connections.fromSkillId, skillId));
+      console.log("Fetched connections:", result);
+      return result;
+    } catch (error) {
+      console.error("Error fetching connections:", error);
+      throw error;
+    }
+  }
+
+  async createConnection(connection: InsertConnection): Promise<Connection> {
+    try {
+      console.log("Creating connection:", connection);
+      const result = await db.insert(connections).values(connection).returning();
+      console.log("Created connection:", result[0]);
+      return result[0];
+    } catch (error) {
+      console.error("Error creating connection:", error);
+      throw error;
+    }
+  }
+
+  async updateConnectionStatus(id: number, status: string): Promise<Connection> {
+    try {
+      console.log("Updating connection status for ID:", id, "to", status);
+      const result = await db.update(connections).set({ status }).where(eq(connections.id, id)).returning();
+      console.log("Updated connection:", result[0]);
+      return result[0];
+    } catch (error) {
+      console.error("Error updating connection status:", error);
+      throw error;
+    }
+  }
+
+  async getConnectionStatus(fromSkillId: number, toSkillId: number): Promise<Connection | null> {
+    try {
+      console.log("Fetching connection status for fromSkillId:", fromSkillId, "toSkillId:", toSkillId);
+      const result = await db.select().from(connections).where(and(eq(connections.fromSkillId, fromSkillId), eq(connections.toSkillId, toSkillId)));
+      console.log("Fetched connection status:", result);
+      return result.length > 0 ? result[0] : null;
+    } catch (error) {
+      console.error("Error fetching connection status:", error);
       throw error;
     }
   }
