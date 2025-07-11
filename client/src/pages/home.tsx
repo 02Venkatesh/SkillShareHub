@@ -134,24 +134,28 @@ export default function Home() {
     'from-purple-500 to-pink-500',
     'from-orange-500 to-red-500',
     'from-teal-500 to-cyan-500',
+    'from-yellow-400 to-orange-500',
+    'from-pink-500 to-rose-500',
+    'from-violet-500 to-purple-500',
+    'from-emerald-500 to-teal-500',
   ];
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">S</span>
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-xl">S</span>
                 </div>
-                <h1 className="ml-3 text-xl font-semibold text-gray-900">SkillSwap</h1>
+                <h1 className="ml-3 text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">SkillSwap</h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Connect • Learn • Grow</span>
+              <span className="text-sm text-gray-600 font-medium">Connect • Learn • Grow</span>
             </div>
           </div>
         </div>
@@ -161,60 +165,68 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Share Your Skills, Learn from Others</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Join our community of learners and teachers. Share what you know, discover what you want to learn, and connect with like-minded people.
+          <div className="mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-4">
+              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
+              Live Community
+            </div>
+          </div>
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">
+            Share Your Skills, Learn from Others
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Join our vibrant community of learners and teachers. Share what you know, discover what you want to learn, and connect with like-minded people.
           </p>
         </div>
 
         {/* Add New Skill Form */}
-        <Card className="mb-8 border-gray-200">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-              <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center mr-3">
-                <span className="text-white text-sm font-medium">+</span>
+        <Card className="mb-12 border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+          <CardContent className="p-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4 shadow-lg">
+                <span className="text-white text-lg font-bold">+</span>
               </div>
               Add Your Skills
             </h3>
             
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <Label htmlFor="name" className="text-sm font-medium text-gray-700 mb-2">Your Name</Label>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-sm font-semibold text-gray-700">Your Name</Label>
                   <Input
                     id="name"
                     {...form.register("name")}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-lg"
                     placeholder="Enter your name"
                   />
                   {form.formState.errors.name && (
-                    <p className="text-red-500 text-sm mt-1">{form.formState.errors.name.message}</p>
+                    <p className="text-red-500 text-sm mt-2">{form.formState.errors.name.message}</p>
                   )}
                 </div>
                 
-                <div>
-                  <Label htmlFor="canTeach" className="text-sm font-medium text-gray-700 mb-2">Can Teach</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="canTeach" className="text-sm font-semibold text-gray-700">Can Teach</Label>
                   <Input
                     id="canTeach"
                     {...form.register("canTeach")}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-lg"
                     placeholder="What can you teach?"
                   />
                   {form.formState.errors.canTeach && (
-                    <p className="text-red-500 text-sm mt-1">{form.formState.errors.canTeach.message}</p>
+                    <p className="text-red-500 text-sm mt-2">{form.formState.errors.canTeach.message}</p>
                   )}
                 </div>
                 
-                <div>
-                  <Label htmlFor="wantsToLearn" className="text-sm font-medium text-gray-700 mb-2">Wants to Learn</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="wantsToLearn" className="text-sm font-semibold text-gray-700">Wants to Learn</Label>
                   <Input
                     id="wantsToLearn"
                     {...form.register("wantsToLearn")}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-lg"
                     placeholder="What do you want to learn?"
                   />
                   {form.formState.errors.wantsToLearn && (
-                    <p className="text-red-500 text-sm mt-1">{form.formState.errors.wantsToLearn.message}</p>
+                    <p className="text-red-500 text-sm mt-2">{form.formState.errors.wantsToLearn.message}</p>
                   )}
                 </div>
               </div>
@@ -223,9 +235,16 @@ export default function Home() {
                 <Button 
                   type="submit" 
                   disabled={createSkillMutation.isPending}
-                  className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-12 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-800 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {createSkillMutation.isPending ? "Sharing..." : "Share My Skills"}
+                  {createSkillMutation.isPending ? (
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Sharing...
+                    </div>
+                  ) : (
+                    "Share My Skills"
+                  )}
                 </Button>
               </div>
             </form>
@@ -233,27 +252,30 @@ export default function Home() {
         </Card>
 
         {/* Skills Grid */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-gray-900">Community Skills</h3>
-            <span className="text-sm text-gray-500">
-              {skills.length} member{skills.length !== 1 ? 's' : ''} sharing skills
-            </span>
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-2xl font-bold text-gray-900">Community Skills</h3>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-sm text-gray-600 font-medium">
+                {skills.length} member{skills.length !== 1 ? 's' : ''} sharing skills
+              </span>
+            </div>
           </div>
           
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className="p-6 border-gray-200">
+                <Card key={i} className="p-6 border-0 shadow-lg bg-white/80 backdrop-blur-sm">
                   <div className="animate-pulse">
-                    <div className="flex items-center mb-4">
-                      <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-                      <div className="ml-3 flex-1">
-                        <div className="h-4 bg-gray-300 rounded mb-2"></div>
-                        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                      <div className="ml-4 flex-1">
+                        <div className="h-5 bg-gray-300 rounded mb-3"></div>
+                        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
                       </div>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <div className="h-4 bg-gray-300 rounded"></div>
                       <div className="h-4 bg-gray-300 rounded"></div>
                     </div>
@@ -262,54 +284,59 @@ export default function Home() {
               ))}
             </div>
           ) : skills.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+            <div className="text-center py-16">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full"></div>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No skills shared yet</h3>
-              <p className="text-gray-500">Be the first to share your skills with the community!</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">No skills shared yet</h3>
+              <p className="text-gray-500 text-lg">Be the first to share your skills with the community!</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {skills.map((skill, index) => (
-                <Card key={skill.id} className="p-6 border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <Card key={skill.id} className="p-6 border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 group">
                   <CardContent className="p-0">
-                    <div className="flex items-center mb-4">
-                      <div className={`w-10 h-10 bg-gradient-to-br ${gradientColors[index % gradientColors.length]} rounded-full flex items-center justify-center`}>
-                        <span className="text-white font-medium text-sm">
+                    <div className="flex items-center mb-6">
+                      <div className={`w-12 h-12 bg-gradient-to-br ${gradientColors[index % gradientColors.length]} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        <span className="text-white font-bold text-lg">
                           {getInitials(skill.name)}
                         </span>
                       </div>
-                      <div className="ml-3">
-                        <h4 className="font-medium text-gray-900">{skill.name}</h4>
+                      <div className="ml-4">
+                        <h4 className="font-bold text-gray-900 text-lg">{skill.name}</h4>
                         <p className="text-sm text-gray-500">{getTimeAgo(skill.createdAt)}</p>
                       </div>
                     </div>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <div className="flex items-start">
-                        <div className="flex-shrink-0 w-2 h-2 bg-success rounded-full mt-2 mr-3"></div>
+                        <div className="flex-shrink-0 w-3 h-3 bg-green-500 rounded-full mt-2 mr-4"></div>
                         <div>
-                          <p className="text-sm font-medium text-gray-700">Can Teach:</p>
-                          <p className="text-sm text-gray-900 mt-1">{skill.canTeach}</p>
+                          <p className="text-sm font-semibold text-gray-700 mb-2">Can Teach:</p>
+                          <p className="text-gray-900 font-medium">{skill.canTeach}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
-                        <div className="flex-shrink-0 w-2 h-2 bg-primary rounded-full mt-2 mr-3"></div>
+                        <div className="flex-shrink-0 w-3 h-3 bg-blue-500 rounded-full mt-2 mr-4"></div>
                         <div>
-                          <p className="text-sm font-medium text-gray-700">Wants to Learn:</p>
-                          <p className="text-sm text-gray-900 mt-1">{skill.wantsToLearn}</p>
+                          <p className="text-sm font-semibold text-gray-700 mb-2">Wants to Learn:</p>
+                          <p className="text-gray-900 font-medium">{skill.wantsToLearn}</p>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="mt-4 pt-4 border-t border-gray-100">
+
+                    <div className="mt-6 pt-6 border-t border-gray-100">
                       <button 
                         onClick={() => handleConnect(skill)}
-                        className="text-primary text-sm font-medium hover:text-blue-600 transition-colors duration-200"
+                        className="text-blue-600 text-sm font-semibold hover:text-blue-700 transition-colors duration-200 flex items-center group"
                       >
-                        Connect
+                        <span className="mr-2">Connect</span>
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+
                       </button>
                     </div>
                   </CardContent>
@@ -321,12 +348,12 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <footer className="bg-white/80 backdrop-blur-md border-t border-gray-200/50 mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-600 text-lg">
               Built with ❤️ for the learning community.{' '}
-              <span className="text-primary">SkillSwap</span> - Where knowledge meets opportunity.
+              <span className="text-blue-600 font-semibold">SkillSwap</span> - Where knowledge meets opportunity.
             </p>
           </div>
         </div>
@@ -334,26 +361,38 @@ export default function Home() {
 
       {/* Connection Request Modal */}
       <Dialog open={isConnectionModalOpen} onOpenChange={setIsConnectionModalOpen}>
-        <DialogContent>
+
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Connect with {selectedSkill?.name}</DialogTitle>
+            <DialogTitle className="text-xl font-bold">Connect with {selectedSkill?.name}</DialogTitle>
           </DialogHeader>
-          <form onSubmit={connectionForm.handleSubmit(onConnectionSubmit)} className="space-y-4">
+          <form onSubmit={connectionForm.handleSubmit(onConnectionSubmit)} className="space-y-6">
             <div>
-              <Label htmlFor="message" className="text-sm font-medium text-gray-700">Message (optional)</Label>
+              <Label htmlFor="message" className="text-sm font-semibold text-gray-700 mb-3 block">Message (optional)</Label>
               <Textarea
                 id="message"
                 {...connectionForm.register("message")}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200"
+                className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 resize-none"
                 placeholder="Write a message (e.g., 'Hello, I'd like to connect!')"
+                rows={4}
+
               />
             </div>
             <Button 
               type="submit" 
               disabled={createConnectionMutation.isPending}
-              className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-800 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {createConnectionMutation.isPending ? "Sending..." : "Send Connection Request"}
+              {createConnectionMutation.isPending ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Sending...
+                </div>
+              ) : (
+                "Send Connection Request"
+              )}
+
             </Button>
           </form>
         </DialogContent>
