@@ -17,6 +17,10 @@ export default function Home() {
     queryKey: ["/api/skills"],
   });
 
+  // Debug logging
+  console.log("Skills data:", skills);
+  console.log("Is loading:", isLoading);
+
   const form = useForm<InsertSkill>({
     resolver: zodResolver(insertSkillSchema),
     defaultValues: {
